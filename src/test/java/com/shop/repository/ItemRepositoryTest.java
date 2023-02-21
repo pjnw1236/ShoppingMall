@@ -2,6 +2,7 @@ package com.shop.repository;
 
 import com.shop.constant.ItemSellStatus;
 import com.shop.entity.Item;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -30,16 +31,18 @@ class ItemRepositoryTest {
 
         item.setItemName("테스트 상품");
         item.setPrice(10000);
+        item.setStockNumber(100);
         item.setItemDetail("테스트 상품 상세 설명");
         item.setItemSellStatus(ItemSellStatus.SELL);
-        item.setStockNumber(100);
         item.setRegTime(LocalDateTime.now());
 
         Item savedItem = itemRepository.save(item);
 
-        System.out.println("=========================================================================================");
-        System.out.println(savedItem.toString());
-        System.out.println("=========================================================================================");
+        Assertions.assertThat(itemRepository.findById(savedItem.getId()).get().getItemName()).isEqualTo("테스트 상품");
+        Assertions.assertThat(itemRepository.findById(savedItem.getId()).get().getPrice()).isEqualTo(10000);
+        Assertions.assertThat(itemRepository.findById(savedItem.getId()).get().getStockNumber()).isEqualTo(100);
+        Assertions.assertThat(itemRepository.findById(savedItem.getId()).get().getItemDetail()).isEqualTo("테스트 상품 상세 설명");
+        Assertions.assertThat(itemRepository.findById(savedItem.getId()).get().getItemSellStatus()).isEqualTo(ItemSellStatus.SELL);
     }
 
     public void createItemList() {
@@ -50,7 +53,7 @@ class ItemRepositoryTest {
             item.setPrice(10000 * i);
             item.setItemDetail("테스트 상품 상세 설명" + i);
             item.setItemSellStatus(ItemSellStatus.SELL);
-            item.setStockNumber(100);
+            item.setStockNumber(100 * i);
             item.setRegTime(LocalDateTime.now());
 
             Item savedItem = itemRepository.save(item);
@@ -61,13 +64,14 @@ class ItemRepositoryTest {
     @DisplayName("상품명 조회 테스트")
     public void findByItemNameTest() {
         this.createItemList();
-        List<Item> itemList = itemRepository.findByItemName("테스트 상품1");
 
-        System.out.println("=========================================================================================");
-        for (Item item : itemList) {
-            System.out.println(item.toString());
+        for (int i=1; i<=10; i++) {
+            List<Item> itemList = itemRepository.findByItemName( "테스트 상품" + i);
+            Assertions.assertThat(itemRepository.findById(itemList.get(0).getId()).get().getPrice()).isEqualTo(10000 * i);
+            Assertions.assertThat(itemRepository.findById(itemList.get(0).getId()).get().getStockNumber()).isEqualTo(100 * i);
+            Assertions.assertThat(itemRepository.findById(itemList.get(0).getId()).get().getItemDetail()).isEqualTo("테스트 상품 상세 설명"+i);
+            Assertions.assertThat(itemRepository.findById(itemList.get(0).getId()).get().getItemSellStatus()).isEqualTo(ItemSellStatus.SELL);
         }
-        System.out.println("=========================================================================================");
     }
 
     @Test
@@ -76,11 +80,7 @@ class ItemRepositoryTest {
         this.createItemList();
         List<Item> itemList = itemRepository.findByItemNameOrItemDetail("테스트 상품1", "테스트 상품 상세 설명5");
 
-        System.out.println("=========================================================================================");
-        for (Item item : itemList) {
-            System.out.println(item.toString());
-        }
-        System.out.println("=========================================================================================");
+        Assertions.assertThat(itemList.size()).isEqualTo(2);
     }
 
     @Test
@@ -89,11 +89,7 @@ class ItemRepositoryTest {
         this.createItemList();
         List<Item> itemList = itemRepository.findByPriceLessThan(30000);
 
-        System.out.println("=========================================================================================");
-        for (Item item : itemList) {
-            System.out.println(item.toString());
-        }
-        System.out.println("=========================================================================================");
+        Assertions.assertThat(itemList.size()).isEqualTo(2);
     }
 
     @Test
@@ -102,11 +98,8 @@ class ItemRepositoryTest {
         this.createItemList();
         List<Item> itemList = itemRepository.findByPriceLessThanOrderByPriceDesc(60000);
 
-        System.out.println("=========================================================================================");
-        for (Item item : itemList) {
-            System.out.println(item.toString());
-        }
-        System.out.println("=========================================================================================");
+        Assertions.assertThat(itemList.size()).isEqualTo(5);
+        Assertions.assertThat(itemList.get(0).getItemName()).isEqualTo("테스트 상품5");
     }
 
     @Test
@@ -115,11 +108,7 @@ class ItemRepositoryTest {
         this.createItemList();
         List<Item> itemList = itemRepository.findByItemDetail("테스트 상품 상세 설명");
 
-        System.out.println("=========================================================================================");
-        for (Item item : itemList) {
-            System.out.println(item.toString());
-        }
-        System.out.println("=========================================================================================");
+        Assertions.assertThat(itemList.size()).isEqualTo(10);
     }
 
     @Test
@@ -128,10 +117,7 @@ class ItemRepositoryTest {
         this.createItemList();
         List<Item> itemList = itemRepository.findByItemDetailByNative("테스트 상품 상세 설명");
 
-        System.out.println("=========================================================================================");
-        for (Item item : itemList) {
-            System.out.println(item.toString());
-        }
-        System.out.println("=========================================================================================");
+        Assertions.assertThat(itemList.size()).isEqualTo(10);
+
     }
 }
