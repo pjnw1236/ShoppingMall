@@ -25,6 +25,6 @@ public class OrderItem {
     private int orderPrice;
     private int count;
 
-    private LocalDateTime regTime;
-    private LocalDateTime updateTime;
+//    private LocalDateTime regTime;
+//    private LocalDateTime updateTime;
 }
