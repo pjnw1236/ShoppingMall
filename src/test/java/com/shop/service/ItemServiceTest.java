@@ -67,5 +67,6 @@ class ItemServiceTest {
 
         Assertions.assertThat(itemFormDto.getItemName()).isEqualTo(item.getItemName());
         Assertions.assertThat(itemFormDto.getItemSellStatus()).isEqualTo(item.getItemSellStatus());
+        System.out.println(item.getId());
     }
 }

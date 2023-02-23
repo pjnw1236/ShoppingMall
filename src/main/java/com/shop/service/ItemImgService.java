@@ -1,5 +1,6 @@
 package com.shop.service;
 
+import com.shop.dto.ItemFormDto;
 import com.shop.entity.ItemImg;
 import com.shop.repository.ItemImgRepository;
 import lombok.RequiredArgsConstructor;
@@ -7,6 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.thymeleaf.util.StringUtils;
+
+import javax.persistence.EntityExistsException;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -29,5 +33,20 @@ public class ItemImgService {
 
         itemImg.updateItemImg(oriImgName, imgName, imgUrl);
         itemImgRepository.save(itemImg);
+    }
+
+    public void updateItemImg(Long itemImgId, MultipartFile itemImgFile) throws Exception {
+        if (!itemImgFile.isEmpty()) {
+            ItemImg savedItemImg = itemImgRepository.findById(itemImgId)
+                    .orElseThrow(EntityExistsException::new);
+            if (!StringUtils.isEmpty(savedItemImg.getImgName())) {
+                fileService.deleteFile(itemImgLocation + "/" + savedItemImg.getImgName());
+            }
+
+            String oriImgName = itemImgFile.getOriginalFilename();
+            String imgName = fileService.uploadFile(itemImgLocation, oriImgName, itemImgFile.getBytes());
+            String imgUrl = "/image/item" + imgName;
+            savedItemImg.updateItemImg(oriImgName, imgName, imgUrl);
+        }
     }
 }
