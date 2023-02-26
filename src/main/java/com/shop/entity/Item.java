@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @ToString
 @Table(name="item")
 @Entity
-public class Item {
+public class Item extends BaseEntity {
     @Id
     @Column(name="item_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
