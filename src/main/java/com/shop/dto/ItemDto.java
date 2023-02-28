@@ -2,11 +2,9 @@ package com.shop.dto;
 
 import lombok.Getter;
 import lombok.Setter;
-
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
+@Getter @Setter
 public class ItemDto {
     private Long id;
     private String itemName;

@@ -28,7 +28,7 @@ public class SecurityConfig {
                 .logoutSuccessUrl("/");
 
         http.authorizeRequests()
-                .mvcMatchers("/", "/members/**", "/item/**", "/images/**", "/css/**", "/js/**", "/static/**").permitAll()
+                .mvcMatchers("/", "/members/**", "/item/**", "/images/**", "/css/**", "/js/**", "/static/**", "/thymeleaf/**").permitAll()
                 .mvcMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated();
 
