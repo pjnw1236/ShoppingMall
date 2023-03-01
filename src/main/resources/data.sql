@@ -1,4 +1,5 @@
-INSERT INTO member (email, password, name, address, role) VALUES("pjnw1236@gmail.com", "$2a$10$zrVlLbV/6QwiwthmVtwz/eBi1ekE6o0VYYqa8wPrjobrsvSGqrNke", "박준우", "경기도 광주시 회안대로 637-35 경남아너스빌 1단지 106동 904호", "ADMIN");
+INSERT INTO member (email, password, name, role, reg_time, created_by) VALUES("admin@gmail.com", "$2a$10$zxFXO.pd5GLaogxwTcvhnuLlAxDiu2VnzjF5rWEPTzcTaGdzydIJK", "관리자" ,"ADMIN", now(), "ADMIN");
+INSERT INTO member (email, password, name, address, role, reg_time, created_by) VALUES("pjnw1236@gmail.com", "$2a$10$zxFXO.pd5GLaogxwTcvhnuLlAxDiu2VnzjF5rWEPTzcTaGdzydIJK", "박준우", "경기도 광주시 회안대로 637-35 경남아너스빌 1단지 106동 904호", "USER",  now(), "anonymousUser");
 
 INSERT INTO item (created_by, modified_by, item_detail, item_name, item_sell_status, price, stock_number) VALUES("pjnw1236@gmail.com", "pjnw1236@gmail.com", "하림 닭가슴살입니다.", "닭가슴살", "SELL", 2000, 100);
 INSERT INTO item (created_by, modified_by, item_detail, item_name, item_sell_status, price, stock_number) VALUES("pjnw1236@gmail.com", "pjnw1236@gmail.com", "개발 서적입니다.", "SQLD 자격증", "SELL", 20000, 50);
