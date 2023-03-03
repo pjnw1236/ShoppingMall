@@ -46,19 +46,16 @@ public class ItemService {
 
     @Transactional(readOnly = true)
     public ItemFormDto getItemDtl(Long itemId) {
-        List<ItemImg> itemImgList = itemImgRepository.findByItemIdOrderByIdAsc(itemId);
+        List<ItemImg> itemImgList = itemImgRepository.findByItemIdOrderByIdAsc(itemId); // 이미지 등록순으로 가져옴
         List<ItemImgDto> itemImgDtoList = new ArrayList<>();
-
         for (ItemImg itemImg : itemImgList) {
             ItemImgDto itemImgDto = ItemImgDto.of(itemImg);
             itemImgDtoList.add(itemImgDto);
         }
-
         Item item = itemRepository.findById(itemId)
                 .orElseThrow(EntityExistsException::new);
         ItemFormDto itemFormDto = ItemFormDto.of(item);
         itemFormDto.setItemImgDtoList(itemImgDtoList);
-
         return itemFormDto;
     }
 
@@ -67,11 +64,9 @@ public class ItemService {
                 .orElseThrow(EntityNotFoundException::new);
         item.updateItem(itemFormDto);
         List<Long> itemImgIds = itemFormDto.getItemImgIds();
-
         for (int i=0; i<itemImgFileList.size(); i++) {
             itemImgService.updateItemImg(itemImgIds.get(i), itemImgFileList.get(i));
         }
-
         return item.getId();
     }
 
