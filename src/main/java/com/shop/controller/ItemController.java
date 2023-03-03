@@ -2,7 +2,7 @@ package com.shop.controller;
 
 import com.shop.dto.ItemFormDto;
 import com.shop.entity.Item;
-import com.shop.entity.ItemSearchDto;
+import com.shop.dto.ItemSearchDto;
 import com.shop.service.ItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -34,9 +34,11 @@ public class ItemController {
 
     @PostMapping("/admin/item/new")
     public String itemNew(@Valid ItemFormDto itemFormDto, BindingResult bindingResult, Model model, @RequestParam("itemImgFile") List<MultipartFile> itemImgFileList) {
+        // 상품 등록시 필수 값이 없는 경우
         if (bindingResult.hasErrors()) {
             return "item/itemForm";
         }
+        // 상품 등록시 첫번째 이미지가 없는 경우
         if (itemImgFileList.get(0).isEmpty() && itemFormDto.getId() == null) {
             model.addAttribute("errorMessage", "첫번째 상품 이미지는 필수 입력 값입니다.");
             return "item/itemForm";

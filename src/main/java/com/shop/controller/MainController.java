@@ -1,7 +1,7 @@
 package com.shop.controller;
 
 import com.shop.dto.MainItemDto;
-import com.shop.entity.ItemSearchDto;
+import com.shop.dto.ItemSearchDto;
 import com.shop.service.ItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

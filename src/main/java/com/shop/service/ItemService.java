@@ -5,7 +5,7 @@ import com.shop.dto.ItemImgDto;
 import com.shop.dto.MainItemDto;
 import com.shop.entity.Item;
 import com.shop.entity.ItemImg;
-import com.shop.entity.ItemSearchDto;
+import com.shop.dto.ItemSearchDto;
 import com.shop.repository.ItemImgRepository;
 import com.shop.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +14,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
@@ -29,21 +28,19 @@ public class ItemService {
     private final ItemImgRepository itemImgRepository;
 
     public Long saveItem(ItemFormDto itemFormDto, List<MultipartFile> itemImgFileList) throws Exception {
+        // 상품 등록
         Item item = itemFormDto.createItem();
         itemRepository.save(item);
-
+        // 이미지 등록
         for (int i=0; i<itemImgFileList.size(); i++) {
             ItemImg itemImg = new ItemImg();
             itemImg.setItem(item);
-
             if (i==0)
                 itemImg.setRepImgYn("Y");
             else
                 itemImg.setRepImgYn("N");
-
             itemImgService.saveItemImg(itemImg, itemImgFileList.get(i));
         }
-
         return item.getId();
     }
 
