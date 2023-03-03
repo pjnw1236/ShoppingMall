@@ -14,7 +14,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.thymeleaf.util.StringUtils;
-
 import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -32,10 +31,9 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom {
 
     private BooleanExpression regDtsAfter(String searchDateType) {
         LocalDateTime dateTime = LocalDateTime.now();
-
         if (StringUtils.equals("all", searchDateType) || searchDateType == null) {
             return null;
-        } else if (StringUtils.equals("id", searchDateType)) {
+        } else if (StringUtils.equals("1d", searchDateType)) {
             dateTime = dateTime.minusDays(1);
         } else if (StringUtils.equals("1w", searchDateType)) {
             dateTime = dateTime.minusWeeks(1);
@@ -44,7 +42,6 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom {
         } else if (StringUtils.equals("6m", searchDateType)) {
             dateTime = dateTime.minusMonths(6);
         }
-
         return QItem.item.regTime.after(dateTime);
     }
 
@@ -54,13 +51,11 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom {
         } else if (StringUtils.equals("createdBy", searchBy)) {
             return QItem.item.createdBy.like("%" + searchQuery + "%");
         }
-
         return null;
     }
 
     @Override
     public Page<Item> getAdminItemPage(ItemSearchDto itemSearchDto, Pageable pageable) {
-
         List<Item> content = queryFactory
                 .selectFrom(QItem.item)
                 .where(regDtsAfter(itemSearchDto.getSearchDateType()),
@@ -71,13 +66,11 @@ public class ItemRepositoryCustomImpl implements ItemRepositoryCustom {
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
-
         long total = queryFactory.select(Wildcard.count).from(QItem.item)
                 .where(regDtsAfter(itemSearchDto.getSearchDateType()),
                         searchSellStatusEq(itemSearchDto.getSearchSellStatus()),
                         searchByLike(itemSearchDto.getSearchBy(), itemSearchDto.getSearchQuery()))
                 .fetchOne();
-
         return new PageImpl<>(content, pageable, total);
     }
 
