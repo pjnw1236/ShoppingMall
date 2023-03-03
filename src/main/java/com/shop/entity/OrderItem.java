@@ -2,7 +2,6 @@ package com.shop.entity;
 
 import lombok.Getter;
 import lombok.Setter;
-
 import javax.persistence.*;
 
 @Entity
@@ -21,8 +20,8 @@ public class OrderItem extends BaseEntity {
     @JoinColumn(name = "order_id")
     private Order order;
 
-    private int orderPrice;
-    private int count;
+    private int orderPrice; // 주문 가겨
+    private int count; // 수향
 
     public static OrderItem createOrderItem(Item item, int count) {
         OrderItem orderItem = new OrderItem();
@@ -30,7 +29,6 @@ public class OrderItem extends BaseEntity {
         orderItem.setCount(count);
         orderItem.setOrderPrice(item.getPrice());
         item.removeStock(count);
-
         return orderItem;
     }
 

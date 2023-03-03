@@ -3,7 +3,6 @@ package com.shop.entity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
 import javax.persistence.*;
 
 @Entity
@@ -22,7 +21,6 @@ public class Cart extends BaseEntity {
     public static Cart createCart(Member member) {
         Cart cart = new Cart();
         cart.setMember(member);
-
         return cart;
     }
 }
