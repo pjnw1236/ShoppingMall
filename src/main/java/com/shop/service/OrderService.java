@@ -15,7 +15,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.util.StringUtils;
-
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,8 +30,8 @@ public class OrderService {
 
     public Long order(OrderDto orderDto, String email) {
         Item item = itemRepository.findById(orderDto.getItemId())
-                .orElseThrow(EntityNotFoundException::new);
-        Member member = memberRepository.findByEmail(email);
+                .orElseThrow(EntityNotFoundException::new); // 주문할 상품 조회
+        Member member = memberRepository.findByEmail(email); // 로그인한 회원 정보 조회
 
         List<OrderItem> orderItemList = new ArrayList<>();
         OrderItem orderItem = OrderItem.createOrderItem(item, orderDto.getCount());
@@ -46,8 +45,8 @@ public class OrderService {
     @Transactional(readOnly = true)
     public Page<OrderHistDto> getOrderList(String email, Pageable pageable) {
 
-        List<Order> orders = orderRepository.findOrders(email, pageable);
-        Long totalCount = orderRepository.countOrder(email);
+        List<Order> orders = orderRepository.findOrders(email, pageable); // 유저의 아이디와 페이징 조건을 이용하여 주문 목록 조회
+        Long totalCount = orderRepository.countOrder(email); // 유저의 주문 총 개수
 
         List<OrderHistDto> orderHistDtos = new ArrayList<>();
 

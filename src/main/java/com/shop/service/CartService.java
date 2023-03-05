@@ -16,7 +16,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.util.StringUtils;
-
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +62,7 @@ public class CartService {
 
         Member member = memberRepository.findByEmail(email);
         Cart cart = cartRepository.findByMemberId(member.getId());
-        if(cart == null){
+        if (cart == null){
             return cartDetailDtoList;
         }
 
@@ -73,7 +72,7 @@ public class CartService {
 
     @Transactional(readOnly = true)
     public boolean validateCartItem(Long cartItemId, String email){
-        Member curMember = memberRepository.findByEmail(email);
+        Member curMember = memberRepository.findByEmail(email); // 현재 로그인한 회원 조회
         CartItem cartItem = cartItemRepository.findById(cartItemId)
                 .orElseThrow(EntityNotFoundException::new);
         Member savedMember = cartItem.getCart().getMember();

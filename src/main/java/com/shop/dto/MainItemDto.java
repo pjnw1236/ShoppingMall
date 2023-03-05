@@ -4,8 +4,7 @@ import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
+@Getter @Setter
 public class MainItemDto {
     private Long id;
     private String itemName;

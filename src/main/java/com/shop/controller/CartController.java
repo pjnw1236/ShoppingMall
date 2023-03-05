@@ -3,7 +3,6 @@ package com.shop.controller;
 import com.shop.dto.CartDetailDto;
 import com.shop.dto.CartItemDto;
 import com.shop.dto.CartOrderDto;
-import com.shop.entity.Cart;
 import com.shop.service.CartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -13,7 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;

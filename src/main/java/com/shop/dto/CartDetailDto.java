@@ -5,11 +5,11 @@ import lombok.Setter;
 
 @Getter @Setter
 public class CartDetailDto {
-    private Long cartItemId;
-    private String itemName;
-    private int price;
-    private int count;
-    private String imgUrl;
+    private Long cartItemId; // 장바구니 상품 아이디
+    private String itemName; // 상품명
+    private int price; // 가격
+    private int count; // 수향
+    private String imgUrl; // 상품 이미지 경로
 
     public CartDetailDto(Long cartItemId, String itemName, int price, int count, String imgUrl) {
         this.cartItemId = cartItemId;

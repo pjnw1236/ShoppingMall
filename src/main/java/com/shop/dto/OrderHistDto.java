@@ -4,13 +4,11 @@ import com.shop.constant.OrderStatus;
 import com.shop.entity.Order;
 import lombok.Getter;
 import lombok.Setter;
-
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@Setter
+@Getter @Setter
 public class OrderHistDto {
     public OrderHistDto(Order order){
         this.orderId = order.getId();
@@ -18,13 +16,12 @@ public class OrderHistDto {
         this.orderStatus = order.getOrderStatus();
     }
 
-    private Long orderId; //주문아이디
-    private String orderDate; //주문날짜
+    private Long orderId; //주문 아이디
+    private String orderDate; //주문 날짜
     private OrderStatus orderStatus; //주문 상태
 
-    private List<OrderItemDto> orderItemDtoList = new ArrayList<>();
+    private List<OrderItemDto> orderItemDtoList = new ArrayList<>(); // 주문 상품 리스트
 
-    //주문 상품리스트
     public void addOrderItemDto(OrderItemDto orderItemDto){
         orderItemDtoList.add(orderItemDto);
     }

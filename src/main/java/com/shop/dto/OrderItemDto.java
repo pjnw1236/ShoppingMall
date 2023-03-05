@@ -4,8 +4,7 @@ import com.shop.entity.OrderItem;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
+@Getter @Setter
 public class OrderItemDto {
     public OrderItemDto(OrderItem orderItem, String imgUrl){
         this.itemName = orderItem.getItem().getItemName();

@@ -8,35 +8,31 @@
   <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 </head>
 
-<!-- 사용자 스크립트 추가 -->
+<!-- JavaScript -->
 <th:block layout:fragment="script">
   <script th:inline="javascript">
-        $(document).ready(function(){
-
+        $(document).ready(function() {
             calculateTotalPrice();
-
             $("#count").change( function(){
                 calculateTotalPrice();
             });
         });
 
-        function calculateTotalPrice(){
+        function calculateTotalPrice() {
             var count = $("#count").val();
             var price = $("#price").val();
             var totalPrice = price*count;
             $("#totalPrice").html(totalPrice + '원');
         }
 
-        function order(){
+        function order() {
             var token = $("meta[name='_csrf']").attr("content");
             var header = $("meta[name='_csrf_header']").attr("content");
-
             var url = "/order";
             var paramData = {
                 itemId : $("#itemId").val(),
                 count : $("#count").val()
             };
-
             var param = JSON.stringify(paramData);
 
             $.ajax({
@@ -55,14 +51,12 @@
                     location.href='/';
                 },
                 error : function(jqXHR, status, error){
-
                     if(jqXHR.status == '401'){
                         alert('로그인 후 이용해주세요');
                         location.href='/members/login';
                     } else{
                         alert(jqXHR.responseText);
                     }
-
                 }
             });
         }
@@ -70,13 +64,11 @@
         function addCart(){
             var token = $("meta[name='_csrf']").attr("content");
             var header = $("meta[name='_csrf_header']").attr("content");
-
             var url = "/cart";
             var paramData = {
                 itemId : $("#itemId").val(),
                 count : $("#count").val()
             };
-
             var param = JSON.stringify(paramData);
 
             $.ajax({
@@ -102,36 +94,34 @@
                     } else{
                         alert(jqXHR.responseText);
                     }
-
                 }
             });
         }
-
     </script>
 </th:block>
 
-<!-- 사용자 CSS 추가 -->
+<!-- CSS -->
 <th:block layout:fragment="css">
-  <style>
-        .mgb-15{
+    <style>
+        .mgb-15 {
             margin-bottom:15px;
         }
-        .mgt-30{
+        .mgt-30 {
             margin-top:30px;
         }
-        .mgt-50{
+        .mgt-50 {
             margin-top:50px;
         }
-        .repImgDiv{
+        .repImgDiv {
             margin-right:15px;
             height:auto;
             width:50%;
         }
-        .repImg{
+        .repImg {
             width:100%;
             height:400px;
         }
-        .wd50{
+        .wd50 {
             height:auto;
             width:50%;
         }
@@ -145,12 +135,8 @@
         <img th:src="${item.itemImgDtoList[0].imgUrl}" class = "rounded repImg" th:alt="${item.itemName}">
       </div>
       <div class="wd50">
-              <span th:if="${item.itemSellStatus == T(com.shop.constant.ItemSellStatus).SELL}" class="badge badge-primary mgb-15">
-                  판매중
-              </span>
-        <span th:unless="${item.itemSellStatus == T(com.shop.constant.ItemSellStatus).SELL}" class="badge btn-danger mgb-15" >
-                  품절
-              </span>
+        <span th:if="${item.itemSellStatus == T(com.shop.constant.ItemSellStatus).SELL}" class="badge badge-primary mgb-15">판매중</span>
+        <span th:unless="${item.itemSellStatus == T(com.shop.constant.ItemSellStatus).SELL}" class="badge btn-danger mgb-15" >품절</span>
         <div class="h4" th:text="${item.itemName}"></div>
         <hr class="my-4">
 
@@ -194,5 +180,4 @@
       <img th:if="${not #strings.isEmpty(itemImg.imgUrl)}" th:src="${itemImg.imgUrl}" class="rounded mgb-15" width="800">
     </div>
   </div>
-
 </html>
